@@ -3,198 +3,164 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Para ti, mi amor 💙</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <title>Para mi amorcito 💙</title>
   <style>
-    * {
+    body {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      color: #1e3a8a;
-      overflow: hidden;
-      position: relative;
-    }
-
-    /* Corazones flotando */
-    .heart {
-      position: absolute;
-      font-size: 20px;
-      color: rgba(255, 255, 255, 0.7);
-      pointer-events: none;
-      animation: float linear infinite;
-      text-shadow: 0 0 10px rgba(255,255,255,0.8);
-    }
-
-    @keyframes float {
-      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10%  { opacity: 0.8; }
-      90%  { opacity: 0.8; }
-      100% { transform: translateY(-15vh) rotate(360deg); opacity: 0; }
-    }
-
-    .container {
-      position: relative;
-      z-index: 10;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 50%, #90caf9 100%);
+      color: #0d47a1;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px;
       text-align: center;
+      overflow: hidden;
     }
 
-    .envelope {
-      width: 320px;
-      max-width: 90%;
-      background: rgba(255,255,255,0.25);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 40px 25px;
-      box-shadow: 0 10px 40px rgba(30,58,138,0.3);
-      border: 1px solid rgba(255,255,255,0.4);
-      animation: appear 1.5s ease-out;
-      cursor: pointer;
-      transition: transform 0.6s;
+    h1 {
+      font-size: 3.5rem;
+      margin: 20px;
+      color: #1565c0;
+      text-shadow: 2px 2px 8px rgba(255,255,255,0.8);
     }
 
-    .envelope:hover {
-      transform: scale(1.05) rotate(2deg);
+    .heart {
+      font-size: 4rem;
+      animation: latir 1.2s infinite;
+      margin: 10px;
     }
 
-    .letter {
+    @keyframes latir {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    #mensaje {
       display: none;
-      animation: fadeIn 2s forwards;
-    }
-
-    .title {
-      font-family: 'Great Vibes', cursive;
-      font-size: 4.5rem;
-      color: #ffffff;
-      text-shadow: 0 0 20px rgba(30,58,138,0.6);
-      margin-bottom: 20px;
-    }
-
-    .text {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.8rem;
+      max-width: 700px;
+      font-size: 1.4rem;
       line-height: 1.6;
-      color: #1e40af;
-      margin: 25px 0;
+      background: rgba(255, 255, 255, 0.75);
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(13, 71, 161, 0.25);
+      margin: 20px;
+      border: 2px solid #90caf9;
     }
 
-    .signature {
-      font-size: 2.2rem;
-      color: #ffffff;
-      margin-top: 40px;
-      font-family: 'Dancing Script', cursive;
-    }
-
-    .btn-start {
-      margin-top: 30px;
-      padding: 15px 40px;
-      font-size: 1.3rem;
-      background: #3b82f6;
+    button {
+      font-size: 1.5rem;
+      padding: 18px 45px;
+      background: #1565c0;
       color: white;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 8px 25px rgba(59,130,246,0.5);
-      transition: all 0.4s;
+      margin: 30px;
+      box-shadow: 0 8px 20px rgba(21, 101, 192, 0.4);
+      transition: all 0.3s;
     }
 
-    .btn-start:hover {
-      background: #2563eb;
+    button:hover {
+      background: #0d47a1;
       transform: translateY(-5px);
-      box-shadow: 0 15px 35px rgba(59,130,246,0.6);
+      box-shadow: 0 12px 30px rgba(13, 71, 161, 0.5);
     }
 
-    @keyframes appear {
-      from { opacity: 0; transform: scale(0.7) translateY(50px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
+    .corazones-flotantes {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .corazon {
+      position: absolute;
+      font-size: 2rem;
+      color: #42a5f5;
+      opacity: 0.7;
+      animation: flotar linear infinite;
+    }
+
+    @keyframes flotar {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-150vh) rotate(360deg);
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1 class="title" id="title">Mi carta para ti 💙</h1>
-    
-    <div class="envelope" id="envelope">
-      <div class="letter" id="letter">
-        <p class="text">
-          Hola mi amor,<br><br>
-          Desde el día que te conocí supe que algo especial estaba pasando…<br>
-          Cada vez que sonríes, cada mensaje tuyo, cada abrazo… todo me hace sentir que el mundo está bien.<br><br>
-          Quiero que sepas que eres mi persona favorita en todo el universo.<br>
-          Gracias por ser tú, por elegirme cada día.<br><br>
-          Te amo con todo mi corazón y quiero que sigamos dejando que las cosas pasen… pero siempre juntos.<br><br>
-          ¿Lista para que siga pasando lo mejor?<br><br>
-        </p>
-        <p class="signature">Tuyo siempre, [Tu nombre] ♾️💙</p>
-      </div>
-    </div>
+  <div class="corazones-flotantes" id="corazones"></div>
 
-    <button class="btn-start" id="startBtn">Toca para abrir nuestra carta 💙</button>
+  <h1>¡Para mi amorcito precioso! 💙</h1>
+  
+  <div class="heart">💙</div>
+  <div class="heart">💙</div>
+  <div class="heart">💙</div>
+
+  <button id="btnSorpresa">Toca aquí mi vida 💙</button>
+
+  <div id="mensaje">
+    Hola amorcito, te mandé este link por gmail, bueno quería hacerte algo bonito para animarte en tus clases por si me levantaba tarde, se que seguramente te este yendo bien ya que eres muy inteligente corazón, también puede que estés algo estresada y pues como no estarlo, pero tu tranquila, yo se que este último año lo vas a pasar amorcito 💙💙
   </div>
 
-  <!-- Música -->
-  <audio id="music" loop>
-    <!-- Opción 1: Archivo local (sube el mp3 a la misma carpeta) -->
-    <!-- <source src="let-it-happen.mp3" type="audio/mpeg"> -->
-
-    <!-- Opción 2: link directo si lo tienes en algún hosting -->
-    <!-- <source src="https://ejemplo.com/let-it-happen.mp3" type="audio/mpeg"> -->
-
-    Tu navegador no soporta audio.
+  <audio id="musica" loop>
+    <!-- Cambia 'tu-cancion.mp3' por el nombre real de tu archivo -->
+    <source src="tu-cancion.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio :(
   </audio>
 
   <script>
-    const envelope = document.getElementById('envelope');
-    const letter = document.getElementById('letter');
-    const btn = document.getElementById('startBtn');
-    const title = document.getElementById('title');
-    const audio = document.getElementById('music');
+    const btn = document.getElementById('btnSorpresa');
+    const mensaje = document.getElementById('mensaje');
+    const audio = document.getElementById('musica');
+    const contenedorCorazones = document.getElementById('corazones');
 
     btn.addEventListener('click', () => {
-      // Activar música (funciona después de interacción del usuario)
-      audio.play().catch(e => console.log("Autoplay bloqueado, pero ok", e));
+      mensaje.style.display = 'block';
+      btn.style.display = 'none'; // opcional: esconder el botón después
 
-      // Ocultar botón y título inicial
-      btn.style.display = 'none';
-      title.style.display = 'none';
+      // Iniciar música (la mayoría de navegadores requieren interacción del usuario)
+      audio.play().catch(err => {
+        console.log("El navegador bloqueó el autoplay, pero ya debería funcionar tras el click");
+      });
 
-      // Mostrar carta con animación
-      letter.style.display = 'block';
-
-      // Crear corazones flotando
-      setInterval(createHeart, 400);
+      // Lanzar más corazoncitos al presionar
+      for(let i = 0; i < 15; i++) {
+        crearCorazon();
+      }
     });
 
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.innerHTML = '💙'; // o ♥
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 8 + 6) + 's'; // 6-14s
-      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-      document.body.appendChild(heart);
+    function crearCorazon() {
+      const corazon = document.createElement('div');
+      corazon.classList.add('corazon');
+      corazon.innerHTML = '💙';
+      corazon.style.left = Math.random() * 100 + 'vw';
+      corazon.style.animationDuration = (Math.random() * 8 + 6) + 's'; // 6-14 segundos
+      corazon.style.animationDelay = Math.random() * 2 + 's';
+      contenedorCorazones.appendChild(corazon);
 
-      setTimeout(() => heart.remove(), 15000);
+      // Eliminar después de terminar animación para no saturar
+      setTimeout(() => {
+        corazon.remove();
+      }, 15000);
     }
+
+    // Algunos corazoncitos desde el inicio para que se vea bonito
+    setInterval(crearCorazon, 1800);
   </script>
+
 </body>
 </html>
