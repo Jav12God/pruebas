@@ -52,23 +52,25 @@
       border: 2px solid #90caf9;
     }
 
-    button {
-      font-size: 1.5rem;
-      padding: 18px 45px;
-      background: #1565c0;
-      color: white;
+    #btnSorpresa {
+      background: none;
       border: none;
-      border-radius: 50px;
       cursor: pointer;
-      margin: 30px;
-      box-shadow: 0 8px 20px rgba(21, 101, 192, 0.4);
+      margin: 40px;
       transition: all 0.3s;
     }
 
-    button:hover {
-      background: #0d47a1;
-      transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(13, 71, 161, 0.5);
+    #btnSorpresa img {
+      width: 220px;          /* ajusta el tamaño según tu imagen */
+      height: auto;
+      border-radius: 50%;    /* hace el botón circular */
+      box-shadow: 0 10px 30px rgba(21, 101, 192, 0.5);
+      transition: all 0.3s;
+    }
+
+    #btnSorpresa:hover img {
+      transform: scale(1.1);
+      box-shadow: 0 15px 40px rgba(13, 71, 161, 0.6);
     }
 
     .corazones-flotantes {
@@ -84,19 +86,15 @@
 
     .corazon {
       position: absolute;
-      font-size: 2rem;
+      font-size: 2.5rem;
       color: #42a5f5;
       opacity: 0.7;
       animation: flotar linear infinite;
     }
 
     @keyframes flotar {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-      }
-      100% {
-        transform: translateY(-150vh) rotate(360deg);
-      }
+      0% { transform: translateY(100vh) rotate(0deg); }
+      100% { transform: translateY(-150vh) rotate(720deg); }
     }
   </style>
 </head>
@@ -108,17 +106,17 @@
   
   <div class="heart">💙</div>
   <div class="heart">💙</div>
-  <div class="heart">💙</div>
 
-  <button id="btnSorpresa">Toca aquí mi vida 💙</button>
+  <button id="btnSorpresa">
+    <img src="mob1.png" alt="Toca aquí mi vida 💙">
+  </button>
 
   <div id="mensaje">
     Hola amorcito, te mandé este link por gmail, bueno quería hacerte algo bonito para animarte en tus clases por si me levantaba tarde, se que seguramente te este yendo bien ya que eres muy inteligente corazón, también puede que estés algo estresada y pues como no estarlo, pero tu tranquila, yo se que este último año lo vas a pasar amorcito 💙💙
   </div>
 
-  <audio id="musica" loop>
-    <!-- Cambia 'tu-cancion.mp3' por el nombre real de tu archivo -->
-    <source src="tu-cancion.mp3" type="audio/mpeg">
+  <audio id="musica" loop preload="auto">
+    <source src="cancion.mp3" type="audio/mpeg">
     Tu navegador no soporta audio :(
   </audio>
 
@@ -130,15 +128,20 @@
 
     btn.addEventListener('click', () => {
       mensaje.style.display = 'block';
-      btn.style.display = 'none'; // opcional: esconder el botón después
+      btn.style.display = 'none'; // esconde el botón después del click
 
-      // Iniciar música (la mayoría de navegadores requieren interacción del usuario)
-      audio.play().catch(err => {
-        console.log("El navegador bloqueó el autoplay, pero ya debería funcionar tras el click");
-      });
+      audio.play()
+        .then(() => {
+          console.log("¡Música reproduciéndose! 💙");
+        })
+        .catch(err => {
+          console.error("Error al reproducir audio:", err);
+          // Muestra un mensaje amigable si falla (por políticas del navegador)
+          alert("Ups, la música no quiso sonar 😔\nPrueba tocar de nuevo o abrir en otro navegador (Chrome/Firefox).\n¡Pero el mensaje ya está aquí para animarte! 💙");
+        });
 
-      // Lanzar más corazoncitos al presionar
-      for(let i = 0; i < 15; i++) {
+      // Lanzar corazoncitos extras
+      for(let i = 0; i < 20; i++) {
         crearCorazon();
       }
     });
@@ -148,18 +151,15 @@
       corazon.classList.add('corazon');
       corazon.innerHTML = '💙';
       corazon.style.left = Math.random() * 100 + 'vw';
-      corazon.style.animationDuration = (Math.random() * 8 + 6) + 's'; // 6-14 segundos
-      corazon.style.animationDelay = Math.random() * 2 + 's';
+      corazon.style.animationDuration = (Math.random() * 10 + 8) + 's'; // 8-18 seg
+      corazon.style.animationDelay = Math.random() * 3 + 's';
       contenedorCorazones.appendChild(corazon);
 
-      // Eliminar después de terminar animación para no saturar
-      setTimeout(() => {
-        corazon.remove();
-      }, 15000);
+      setTimeout(() => corazon.remove(), 20000);
     }
 
-    // Algunos corazoncitos desde el inicio para que se vea bonito
-    setInterval(crearCorazon, 1800);
+    // Corazoncitos flotando desde el inicio para ambientar
+    setInterval(crearCorazon, 2200);
   </script>
 
 </body>
