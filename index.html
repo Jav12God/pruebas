@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>Para mi amorcito 💙</title>
   <style>
     body {
@@ -18,19 +18,20 @@
       justify-content: center;
       text-align: center;
       overflow: hidden;
+      -webkit-tap-highlight-color: transparent; /* Evita highlights en toques móviles */
     }
 
     h1 {
-      font-size: 3.5rem;
-      margin: 20px;
+      font-size: 2.5rem; /* Más pequeño en base para móviles */
+      margin: 15px;
       color: #1565c0;
-      text-shadow: 2px 2px 8px rgba(255,255,255,0.8);
+      text-shadow: 1px 1px 4px rgba(255,255,255,0.8);
     }
 
     .heart {
-      font-size: 4rem;
+      font-size: 3rem; /* Ajustado para móviles */
       animation: latir 1.2s infinite;
-      margin: 10px;
+      margin: 8px;
     }
 
     @keyframes latir {
@@ -41,14 +42,14 @@
 
     #mensaje {
       display: none;
-      max-width: 700px;
-      font-size: 1.4rem;
-      line-height: 1.6;
+      max-width: 90%; /* Mejor para pantallas pequeñas */
+      font-size: 1.1rem; /* Legible en móvil */
+      line-height: 1.5;
       background: rgba(255, 255, 255, 0.75);
-      padding: 35px;
-      border-radius: 25px;
-      box-shadow: 0 10px 30px rgba(13, 71, 161, 0.25);
-      margin: 20px;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(13, 71, 161, 0.25);
+      margin: 15px;
       border: 2px solid #90caf9;
     }
 
@@ -56,21 +57,22 @@
       background: none;
       border: none;
       cursor: pointer;
-      margin: 40px;
+      margin: 20px;
       transition: all 0.3s;
     }
 
     #btnSorpresa img {
-      width: 220px;          /* ajusta el tamaño según tu imagen */
+      width: 180px; /* Tamaño ajustado para móvil */
       height: auto;
-      border-radius: 50%;    /* hace el botón circular */
-      box-shadow: 0 10px 30px rgba(21, 101, 192, 0.5);
+      border-radius: 50%;
+      box-shadow: 0 8px 20px rgba(21, 101, 192, 0.5);
       transition: all 0.3s;
     }
 
-    #btnSorpresa:hover img {
+    #btnSorpresa:hover img,
+    #btnSorpresa:active img { /* Soporte para toques en móvil */
       transform: scale(1.1);
-      box-shadow: 0 15px 40px rgba(13, 71, 161, 0.6);
+      box-shadow: 0 12px 30px rgba(13, 71, 161, 0.6);
     }
 
     .corazones-flotantes {
@@ -86,7 +88,7 @@
 
     .corazon {
       position: absolute;
-      font-size: 2.5rem;
+      font-size: 2rem; /* Ajustado */
       color: #42a5f5;
       opacity: 0.7;
       animation: flotar linear infinite;
@@ -95,6 +97,23 @@
     @keyframes flotar {
       0% { transform: translateY(100vh) rotate(0deg); }
       100% { transform: translateY(-150vh) rotate(720deg); }
+    }
+
+    /* Media queries para mejor responsividad */
+    @media (min-width: 768px) { /* Tablets y arriba */
+      h1 { font-size: 3.5rem; margin: 20px; }
+      .heart { font-size: 4rem; margin: 10px; }
+      #mensaje { font-size: 1.4rem; padding: 35px; max-width: 700px; margin: 20px; }
+      #btnSorpresa { margin: 40px; }
+      #btnSorpresa img { width: 220px; }
+      .corazon { font-size: 2.5rem; }
+    }
+
+    @media (max-width: 480px) { /* Móviles pequeños */
+      body { font-size: 0.9rem; }
+      h1 { font-size: 2rem; }
+      #mensaje { padding: 15px; font-size: 1rem; }
+      #btnSorpresa img { width: 150px; }
     }
   </style>
 </head>
@@ -126,24 +145,50 @@
     const audio = document.getElementById('musica');
     const contenedorCorazones = document.getElementById('corazones');
 
-    btn.addEventListener('click', () => {
+    // Función para desbloquear audio en móviles (necesario por gestos)
+    async function unlockAudio() {
+      if (audio.paused) {
+        try {
+          await audio.play();
+          audio.pause(); // Pausa inmediata
+        } catch (e) {}
+      }
+    }
+
+    btn.addEventListener('click', async () => {
+      await unlockAudio(); // Intento inicial de desbloqueo
+
       mensaje.style.display = 'block';
-      btn.style.display = 'none'; // esconde el botón después del click
+      btn.style.display = 'none';
 
       audio.play()
         .then(() => {
           console.log("¡Música reproduciéndose! 💙");
         })
-        .catch(err => {
-          console.error("Error al reproducir audio:", err);
-          // Muestra un mensaje amigable si falla (por políticas del navegador)
-          alert("Ups, la música no quiso sonar 😔\nPrueba tocar de nuevo o abrir en otro navegador (Chrome/Firefox).\n¡Pero el mensaje ya está aquí para animarte! 💙");
+        .catch(async err => {
+          console.error("Error al reproducir:", err);
+          // Retry después de un pequeño delay
+          setTimeout(async () => {
+            try {
+              await audio.play();
+              console.log("Retry exitoso 💙");
+            } catch (retryErr) {
+              console.error("Retry falló:", retryErr);
+              alert("Ups, la música no suena 😔\nEn móvil, asegúrate de que el volumen esté arriba y prueba en Chrome. ¡El mensaje ya está para ti! 💙");
+            }
+          }, 200);
         });
 
-      // Lanzar corazoncitos extras
+      // Corazones extras
       for(let i = 0; i < 20; i++) {
         crearCorazon();
       }
+    });
+
+    // Touch events para mejor soporte en móviles
+    btn.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // Evita zoom o scroll accidental
+      btn.click(); // Simula click
     });
 
     function crearCorazon() {
@@ -151,14 +196,12 @@
       corazon.classList.add('corazon');
       corazon.innerHTML = '💙';
       corazon.style.left = Math.random() * 100 + 'vw';
-      corazon.style.animationDuration = (Math.random() * 10 + 8) + 's'; // 8-18 seg
+      corazon.style.animationDuration = (Math.random() * 10 + 8) + 's';
       corazon.style.animationDelay = Math.random() * 3 + 's';
       contenedorCorazones.appendChild(corazon);
-
       setTimeout(() => corazon.remove(), 20000);
     }
 
-    // Corazoncitos flotando desde el inicio para ambientar
     setInterval(crearCorazon, 2200);
   </script>
 
